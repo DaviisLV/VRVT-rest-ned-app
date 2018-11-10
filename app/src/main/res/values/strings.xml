@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VRVT-rest-ned-app</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="LoudList">Aiziet</string>
 </resources>

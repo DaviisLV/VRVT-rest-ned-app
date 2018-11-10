@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/mainButton"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="@string/LoudList" />
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ListActivity"
+    tools:showIn="@layout/activity_list">
 
 </android.support.constraint.ConstraintLayout>
