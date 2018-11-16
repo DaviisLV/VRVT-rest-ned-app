@@ -1,5 +1,6 @@
 package com.abols.davis.vrvt_rest_ned_app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -34,17 +35,19 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<HashMap<String, String>> RestoranList;
     String MainImageurl = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/placeholder.jpg?alt=media&token=0ea191a1-4875-4017-a966-aee4d61e4a03";
     String JsonURL = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/Android-MD.json?alt=media&token=e3abae8f-4b7b-4955-a8f8-6d30d9390dcb";
-
+    ProgressDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RestoranList = new ArrayList<>();
-
+        pDialog = new ProgressDialog(this);
         new GetJSONData().execute();
         if (loadImageFromStorage("Main") == null) {
+            Log.e("aaa", "bbb");
             new GetMainImage().execute();
         } else {
+            Log.e("aaa", "bbb");
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(loadImageFromStorage("Main"));
         }
@@ -87,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pDialog.setMessage("Notiek ielāde...");
+            pDialog.setCancelable(false);
+            pDialog.show();
             Toast.makeText(MainActivity.this, "Json Data is downloading", Toast.LENGTH_LONG).show();
         }
 
@@ -183,12 +189,15 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
 
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
             for (int i = 0; i < RestoranList.size(); i++) {
                 if (loadImageFromStorage(String.valueOf(RestoranList.get(i).get("restoran"))) == null) {
                     new LoudJosnImages().execute(RestoranList.get(i).get("image"), String.valueOf(i));
                 }
             }
-
+Log.e("aaa", "aaa");
             final Button button = findViewById(R.id.mainButton);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -201,6 +210,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class GetMainImage extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (!pDialog.isShowing())
+                pDialog.show();
+        }
         //Ielādē sākuma attēlu
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -223,10 +238,18 @@ public class MainActivity extends AppCompatActivity {
             saveToInternalStorage(result, "Main");
             ImageView imageView = (ImageView) findViewById(R.id.imageView);
             imageView.setImageBitmap(loadImageFromStorage("Main"));
+            if (pDialog.isShowing())
+                pDialog.dismiss();
         }
     }
 
     private class LoudJosnImages extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (!pDialog.isShowing())
+                pDialog.show();
+        }
         //ielādē restoranu bildes un saglaba telefona kešatmiņā
         public int index;
         @Override
@@ -248,6 +271,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             saveToInternalStorage(result, RestoranList.get(index).get("restoran"));
+            if (pDialog.isShowing())
+                pDialog.dismiss();
         }
     }
 }
