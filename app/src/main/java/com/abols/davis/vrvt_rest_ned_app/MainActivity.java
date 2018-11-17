@@ -1,12 +1,16 @@
 package com.abols.davis.vrvt_rest_ned_app;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Premition();
+
         RestoranList = new ArrayList<>();
         pDialog = new ProgressDialog(this);
         new GetJSONData().execute();
@@ -50,6 +57,23 @@ public class MainActivity extends AppCompatActivity {
             Log.e("aaa", "bbb");
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(loadImageFromStorage("Main"));
+        }
+    }
+    public void Premition(){
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.CALL_PHONE)) {
+
+            }
+            else {
+                int MY_PERMISSIONS_REQUEST_READ_CONTACTS =1;
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
         }
     }
 
