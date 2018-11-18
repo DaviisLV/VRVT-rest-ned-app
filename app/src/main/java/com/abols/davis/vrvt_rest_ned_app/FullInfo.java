@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -29,18 +31,22 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int REQUEST_LOCATION = 1;
     private GoogleMap mMap;
     MapView Map;
     ImageView image;
+    String adress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_full_info);
 
         String restoran = getIntent().getStringExtra("restoran");
-        String adress = getIntent().getStringExtra("adress");
+        adress = getIntent().getStringExtra("adress");
         String phone = getIntent().getStringExtra("phone");
         String webpage = getIntent().getStringExtra("webpage");
         String price = getIntent().getStringExtra("price");
@@ -97,9 +103,18 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
         image.setImageBitmap(loadImageFromStorage(restoran));
 
         Map = (MapView) findViewById(R.id.map);
-        Map.onCreate(savedInstanceState);
+        if (Map != null) {
+            Map.onCreate(null);
+            Map.onResume();
+            Map.getMapAsync(this);
+
 
         getSupportActionBar().hide();
+
+
+        }
+//        Map = (MapView) findViewById(R.id.map);
+//        Map.onCreate(savedInstanceState);
 
         final Button button = findViewById(R.id.Call);
         button.setOnClickListener(new View.OnClickListener() {
@@ -110,15 +125,58 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+MapsInitializer.initialize(this);
+      mMap = googleMap;
 
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION);
+            onMapReady(googleMap);
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        LatLng address = getLocationFromAddress(this, adress);
+        mMap.addMarker(new MarkerOptions().position(address).title(adress));
+
+        CameraPosition poz  = CameraPosition.builder().target(address).zoom(15f).bearing(0).build();
+
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(poz));
+
+    }
+    public LatLng getLocationFromAddress(Context context, String strAddress)
+    {
+        Geocoder coder= new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try
+        {
+            address = coder.getFromLocationName(strAddress, 5);
+            if(address==null)
+            {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return p1;
 
     }
     public Bitmap loadImageFromStorage(String name)
