@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">VRVT-rest-ned-app</string>
     <string name="title_activity_list">ListActivity</string>
-    <string name="LoudList">Aiziet</string>
+    <string name="LoudList">Skatīt visus restorānus</string>
+    <string name="WelcomeContent">Restorānu\nNedēļa</string>
+    <string name="ctaButton">Zvanīt restorānam</string>
+    <string name="ListTitleAll">Restorāni Valmierā</string>
+    <string name="Menu">ĒDIENKARTE</string>
+    <string name="Contacts">Kontakti un atrašanās vieta</string>
+    <string name="Schedule">Darba laiks</string>
 </resources>

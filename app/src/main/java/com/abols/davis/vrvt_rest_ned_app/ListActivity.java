@@ -102,7 +102,7 @@ public class ListActivity extends AppCompatActivity {
 
 
             name.setText(list.get(position).get("restoran"));
-            price.setText(list.get(position).get("price"));
+            price.setText(list.get(position).get("price") + " EUR");
             imageView.setImageBitmap(loadImageFromStorage(list.get(position).get("restoran")));
             return rowView;
         }

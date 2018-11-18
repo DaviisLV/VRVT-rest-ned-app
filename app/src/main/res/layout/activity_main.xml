@@ -6,20 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/mainButton"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:text="@string/LoudList"
-      />
-
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        tools:ignore="MissingConstraints" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType = "centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="350dp"
+        android:layout_height="600dp"
+        android:paddingLeft="30dip"
+        android:paddingBottom="40dp"
+        android:gravity="left|center"
+        android:src="@drawable/rest_ned_logo"
+        />
+
+    <Button
+        android:id="@+id/mainButton"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="68dp"
+        android:text="@string/LoudList"
+        android:theme="@style/AppTheme.Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.957"
+        />
 
 </android.support.constraint.ConstraintLayout>

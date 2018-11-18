@@ -37,7 +37,7 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<HashMap<String, String>> RestoranList;
-    String MainImageurl = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/placeholder.jpg?alt=media&token=0ea191a1-4875-4017-a966-aee4d61e4a03";
+    String MainImageurl = "http://flowin.lv/tmp/rest-ned-bg_final_final.jpg";
     String JsonURL = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/Android-MD.json?alt=media&token=e3abae8f-4b7b-4955-a8f8-6d30d9390dcb";
     ProgressDialog pDialog;
     @Override
@@ -45,16 +45,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().hide();
+
         Premition();
 
         RestoranList = new ArrayList<>();
         pDialog = new ProgressDialog(this);
         new GetJSONData().execute();
         if (loadImageFromStorage("Main") == null) {
-            Log.e("aaa", "bbb");
+            Log.e("aaa", "image found");
             new GetMainImage().execute();
         } else {
-            Log.e("aaa", "bbb");
+            Log.e("aaa", "image not found");
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(loadImageFromStorage("Main"));
         }

@@ -73,7 +73,7 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
         TextView _restoran = findViewById(R.id.RestoranName);
         _restoran.setText(restoran);
         TextView _price = findViewById(R.id.Price);
-        _price.setText(price);
+        _price.setText(price + " EUR");
         TextView _food1 = findViewById(R.id.Food1);
         _food1.setText(food1);
         TextView _food2 = findViewById(R.id.Food2);
@@ -83,19 +83,19 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
         TextView _coment = findViewById(R.id.Coment);
         _coment.setText(coment);
         TextView _day1 = findViewById(R.id.Day1);
-        _day1.setText(day1);
+        _day1.setText("P. " + day1);
         TextView _day2 = findViewById(R.id.Day2);
-        _day2.setText(day2);
+        _day2.setText("O. " + day2);
         TextView _day3 = findViewById(R.id.Day3);
-        _day3.setText(day3);
+        _day3.setText("T. " + day3);
         TextView _day4 = findViewById(R.id.Day4);
-        _day4.setText(day4);
+        _day4.setText("C. " + day4);
         TextView _day5 = findViewById(R.id.Day5);
-        _day5.setText(day5);
+        _day5.setText("Pk. " + day5);
         TextView _day6 = findViewById(R.id.Day6);
-        _day6.setText(day6);
+        _day6.setText("Se. " + day6);
         TextView _day7 = findViewById(R.id.Day7);
-        _day7.setText(day7);
+        _day7.setText("Sv. " + day7);
         TextView _webpage = findViewById(R.id.Web);
         _webpage.setText(webpage);
 
@@ -108,10 +108,14 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
             Map.onResume();
             Map.getMapAsync(this);
 
+
+        getSupportActionBar().hide();
+
+
         }
 //        Map = (MapView) findViewById(R.id.map);
 //        Map.onCreate(savedInstanceState);
-     
+
         final Button button = findViewById(R.id.Call);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
