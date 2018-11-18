@@ -45,9 +45,8 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_info);
         getSupportActionBar().hide();
-
-        String restoran = getIntent().getStringExtra("restoran");
         adress = getIntent().getStringExtra("adress");
+        String restoran = getIntent().getStringExtra("restoran");
         phone = getIntent().getStringExtra("phone");
         String webpage = getIntent().getStringExtra("webpage");
         String price = getIntent().getStringExtra("price");

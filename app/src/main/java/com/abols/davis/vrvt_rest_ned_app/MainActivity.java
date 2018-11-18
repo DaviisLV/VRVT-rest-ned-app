@@ -14,9 +14,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,18 +35,41 @@ public class MainActivity extends AppCompatActivity {
     String MainImageurl = "http://flowin.lv/tmp/rest-ned-bg_final_final.jpg";
     String JsonURL = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/Android-MD.json?alt=media&token=91103133-7539-4fd3-9677-81ea41c8fe71";
     ProgressDialog pDialog;
+    Button button;
+    Button reloud;
+    Boolean dataResived = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        button = findViewById(R.id.mainButton);
+        button.setVisibility(View.INVISIBLE);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                intent.putExtra("arraylist", RestoranList);
+                startActivity(intent);
+            }
+        });
+        reloud = findViewById(R.id.reloud);
+        reloud.setVisibility(View.INVISIBLE);
+        reloud.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loudData();
+            }
+        });
+
         getSupportActionBar().hide();
         RestoranList = new ArrayList<>();
         pDialog = new ProgressDialog(this);
 
-        new GetJSONData().execute();
+        loudData();
+    }
 
+    public void loudData() {
+        new GetJSONData().execute();
         if (loadImageFromStorage("Main") == null) {
             Log.e("aaa", "image found");
             new GetMainImage().execute();
@@ -161,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
                         // adding contact to contact list
                         RestoranList.add(Restorane);
                     }
+                    dataResived = true;
                 } catch (final JSONException e) {
-                    Log.e("resp", "Json parsing error: " + e.getMessage());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -173,12 +198,12 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             } else {
-                Log.e("resp", "Couldn't get json from server.");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dataResived = false;
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
+                                "Dati nav ielēdēti! Pārbaudiet interneta savienojumu!",
                                 Toast.LENGTH_LONG).show();
                     }
                 });
@@ -198,15 +223,13 @@ public class MainActivity extends AppCompatActivity {
                     new LoudJosnImages().execute(RestoranList.get(i).get("image"), String.valueOf(i));
                 }
             }
-
-            final Button button = findViewById(R.id.mainButton);
-            button.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, ListActivity.class);
-                    intent.putExtra("arraylist", RestoranList);
-                    startActivityForResult(intent, 500);
-                }
-            });
+            if (dataResived) {
+                button.setVisibility(View.VISIBLE);
+                reloud.setVisibility(View.INVISIBLE);
+            } else{
+                reloud.setVisibility(View.VISIBLE);
+                button.setVisibility(View.INVISIBLE);
+            }
         }
     }
 
@@ -242,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageBitmap(loadImageFromStorage("Main"));
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
         }
     }
 

@@ -58,7 +58,7 @@ public class ListActivity extends AppCompatActivity {
                 intent.putExtra("food2", RestoranList.get(position).get("food2"));
                 intent.putExtra("food3", RestoranList.get(position).get("food3"));
                 intent.putExtra("coment", RestoranList.get(position).get("coment"));
-                startActivityForResult(intent, 500);
+                startActivity(intent);
             }
 
         });

@@ -8,4 +8,5 @@
     <string name="Menu">ĒDIENKARTE</string>
     <string name="Contacts">Kontakti un atrašanās vieta</string>
     <string name="Schedule">Darba laiks</string>
+    <string name="reload">Ielādēt</string>
 </resources>

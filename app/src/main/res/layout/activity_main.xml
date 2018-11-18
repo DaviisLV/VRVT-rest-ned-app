@@ -36,5 +36,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.957"
         />
+    <Button
+        android:id="@+id/reloud"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:layout_height="68dp"
+        android:text="@string/reload"
+        android:theme="@style/AppTheme.Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.957"
+        />
 
 </android.support.constraint.ConstraintLayout>
