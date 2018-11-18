@@ -12,115 +12,275 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical" >
 
-            <ImageView
-                android:id="@+id/imageRest"
-                android:layout_width="wrap_content"
-                android:layout_height="148dp"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="0dp"
-                tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/imageRest"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                <TextView
+                    android:id="@+id/RestoranName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/RestaurantHeading"
+                    android:layout_alignLeft="@id/imageRest"
+                    android:layout_alignTop="@id/imageRest"
+                    android:layout_alignRight="@id/imageRest"
+                    android:layout_alignBottom="@id/imageRest"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:gravity="bottom|left"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/Price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/imageRest"
+                    android:layout_alignTop="@id/imageRest"
+                    android:layout_alignRight="@id/imageRest"
+                    android:layout_alignBottom="@id/imageRest"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="bottom|left"
+                    android:textAppearance="@style/RestaurantPrice"
+                    android:text="TextView" />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/RestoranName"
+                android:id="@+id/Coment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/CommentsText"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="30dp"
+
                 android:text="TextView" />
 
-            <TextView
-                android:id="@+id/Price"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tvText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/Menu"
+                    android:textAppearance="@style/SeperatorStyle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/Food1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/FoodText"
+                android:layout_margin="20dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/Food2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:layout_margin="20dp"
+                android:textAppearance="@style/FoodText" />
 
             <TextView
                 android:id="@+id/Food3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/FoodText"
+                android:layout_margin="20dp"
                 android:text="TextView" />
-            <TextView
-                android:id="@+id/Coment"
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tvText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/Contacts"
+                    android:textAppearance="@style/SeperatorStyle"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+            </RelativeLayout>
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/map"
                 android:layout_width="match_parent"
-                android:layout_height="122dp" />
+                android:layout_margin="20dp"
+                android:layout_height="252dp" />
 
             <TextView
                 android:id="@+id/Web"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/WebText"
+                android:layout_margin="20dp"
+                android:autoLink="all"
                 android:text="TextView" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/tvText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/Schedule"
+                    android:textAppearance="@style/SeperatorStyle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_toRightOf="@id/tvText"
+                    android:background="@color/colorThird"
+                    />
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:orientation="vertical">
 
                 <TextView
                 android:id="@+id/Day1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:textAppearance="@style/WorkingHoursText"
                 android:text="TextView" />
+
                 <TextView
                     android:id="@+id/Day2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="@style/WorkingHoursText"
+                    android:layout_margin="20dp"
                     android:text="TextView" />
                 <TextView
                     android:id="@+id/Day3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/WorkingHoursText"
                     android:text="TextView" />
                 <TextView
                     android:id="@+id/Day4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/WorkingHoursText"
                     android:text="TextView" />
                 <TextView
                     android:id="@+id/Day5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/WorkingHoursText"
                     android:text="TextView" />
                 <TextView
                     android:id="@+id/Day6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/WorkingHoursText"
                     android:text="TextView" />
                 <TextView
                     android:id="@+id/Day7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textAppearance="@style/WorkingHoursText"
                     android:text="TextView" />
-
-
-
             </LinearLayout>
-
 
 
             <Button
                 android:id="@+id/Call"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_margin="15dp"
+                android:layout_height="68dp"
+                android:theme="@style/AppTheme.Button"
+                android:text="@string/ctaButton" />
 
         </LinearLayout>
     </ScrollView>

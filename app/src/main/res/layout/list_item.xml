@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
    >
-
-    <TextView
-        android:id="@+id/Name"
-        android:layout_width="fill_parent"
-        android:layout_height="69dp"
-        android:paddingBottom="2dip"
-        android:textColor="@color/colorAccent" />
-
-    <TextView
-        android:id="@+id/Price"
-        android:layout_width="fill_parent"
-        android:layout_height="65dp"
-        android:paddingBottom="2dip"
-        android:textColor="@color/colorAccent" />
-
-    <ImageView
-        android:id="@+id/restoranImage"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="158dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        android:layout_height="match_parent"
+        app:cardCornerRadius="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="30dp">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/restoranImage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                />
+
+            <TextView
+                android:id="@+id/Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/restoranImage"
+                android:layout_alignTop="@id/restoranImage"
+                android:layout_alignRight="@id/restoranImage"
+                android:layout_alignBottom="@id/restoranImage"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="bottom|left"
+                android:textAppearance="@style/RestaurantHeading"
+                />
+
+            <TextView
+                android:id="@+id/Price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/restoranImage"
+                android:layout_alignTop="@id/restoranImage"
+                android:layout_alignRight="@id/restoranImage"
+                android:layout_alignBottom="@id/restoranImage"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="bottom|left"
+                android:textAppearance="@style/RestaurantPrice"
+                />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
