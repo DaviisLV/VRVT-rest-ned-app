@@ -4,11 +4,13 @@
     package="com.abols.davis.vrvt_rest_ned_app">
 
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="de.blinkt.openvpn.REMOTE_API"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <permission-group android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.REQUEST_LOCATION"/>
 
     <application
         android:allowBackup="true"
