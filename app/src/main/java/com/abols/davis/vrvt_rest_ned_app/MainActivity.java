@@ -1,16 +1,12 @@
 package com.abols.davis.vrvt_rest_ned_app;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,11 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,25 +27,24 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<HashMap<String, String>> RestoranList;
     String MainImageurl = "http://flowin.lv/tmp/rest-ned-bg_final_final.jpg";
-    String JsonURL = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/Android-MD.json?alt=media&token=e3abae8f-4b7b-4955-a8f8-6d30d9390dcb";
+    String JsonURL = "https://firebasestorage.googleapis.com/v0/b/vrvt-android.appspot.com/o/Android-MD.json?alt=media&token=91103133-7539-4fd3-9677-81ea41c8fe71";
     ProgressDialog pDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
-        Premition();
-
         RestoranList = new ArrayList<>();
         pDialog = new ProgressDialog(this);
+
         new GetJSONData().execute();
+
         if (loadImageFromStorage("Main") == null) {
             Log.e("aaa", "image found");
             new GetMainImage().execute();
@@ -59,23 +52,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e("aaa", "image not found");
             ImageView imageView = findViewById(R.id.imageView);
             imageView.setImageBitmap(loadImageFromStorage("Main"));
-        }
-    }
-    public void Premition(){
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.CALL_PHONE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.CALL_PHONE)) {
-
-            }
-            else {
-                int MY_PERMISSIONS_REQUEST_READ_CONTACTS =1;
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.CALL_PHONE},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-            }
         }
     }
 
@@ -119,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
             pDialog.setMessage("Notiek ielāde...");
             pDialog.setCancelable(false);
             pDialog.show();
-            Toast.makeText(MainActivity.this, "Json Data is downloading", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -223,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     new LoudJosnImages().execute(RestoranList.get(i).get("image"), String.valueOf(i));
                 }
             }
-Log.e("aaa", "aaa");
+
             final Button button = findViewById(R.id.mainButton);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -242,6 +217,7 @@ Log.e("aaa", "aaa");
             if (!pDialog.isShowing())
                 pDialog.show();
         }
+
         //Ielādē sākuma attēlu
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -252,13 +228,13 @@ Log.e("aaa", "aaa");
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                Log.d("image", "bilde novilkta");
                 return myBitmap;
             } catch (Exception e) {
                 Log.d("image", e.getMessage());
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Bitmap result) {
             saveToInternalStorage(result, "Main");
@@ -276,8 +252,10 @@ Log.e("aaa", "aaa");
             if (!pDialog.isShowing())
                 pDialog.show();
         }
+
         //ielādē restoranu bildes un saglaba telefona kešatmiņā
         public int index;
+
         @Override
         protected Bitmap doInBackground(String... sUrl) {
             try {
@@ -294,6 +272,7 @@ Log.e("aaa", "aaa");
             }
             return null;
         }
+
         @Override
         protected void onPostExecute(Bitmap result) {
             saveToInternalStorage(result, RestoranList.get(index).get("restoran"));

@@ -9,32 +9,23 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -47,15 +38,17 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
     MapView Map;
     ImageView image;
     String adress;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_info);
+        getSupportActionBar().hide();
 
         String restoran = getIntent().getStringExtra("restoran");
         adress = getIntent().getStringExtra("adress");
-        String phone = getIntent().getStringExtra("phone");
+        phone = getIntent().getStringExtra("phone");
         String webpage = getIntent().getStringExtra("webpage");
         String price = getIntent().getStringExtra("price");
         String coment = getIntent().getStringExtra("coment");
@@ -107,80 +100,84 @@ public class FullInfo extends AppCompatActivity implements OnMapReadyCallback {
             Map.onCreate(null);
             Map.onResume();
             Map.getMapAsync(this);
-
-
-        getSupportActionBar().hide();
-
-
         }
-//        Map = (MapView) findViewById(R.id.map);
-//        Map.onCreate(savedInstanceState);
 
         final Button button = findViewById(R.id.Call);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:29464050"));
-                startActivity(callIntent);
+                Call();
             }
         });
     }
 
+    public void Call() {
+        if (ContextCompat.checkSelfPermission(FullInfo.this,
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(FullInfo.this,
+                    Manifest.permission.CALL_PHONE)) {
+                Toast.makeText(getApplicationContext(),
+                        "Nav atļauts veiks zvanus!",
+                        Toast.LENGTH_LONG).show();
+                int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+                ActivityCompat.requestPermissions(FullInfo.this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            } else {
+                int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1;
+                ActivityCompat.requestPermissions(FullInfo.this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+
+        } else {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + phone));
+            startActivity(callIntent);
+        }
+    }
+
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-MapsInitializer.initialize(this);
-      mMap = googleMap;
-
+        mMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION);
-            onMapReady(googleMap);
         } else {
             mMap.setMyLocationEnabled(true);
         }
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng address = getLocationFromAddress(this, adress);
         mMap.addMarker(new MarkerOptions().position(address).title(adress));
-
-        CameraPosition poz  = CameraPosition.builder().target(address).zoom(15f).bearing(0).build();
-
+        CameraPosition poz = CameraPosition.builder().target(address).zoom(15f).bearing(0).build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(poz));
-
     }
-    public LatLng getLocationFromAddress(Context context, String strAddress)
-    {
-        Geocoder coder= new Geocoder(context);
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
-
-        try
-        {
+        try {
             address = coder.getFromLocationName(strAddress, 5);
-            if(address==null)
-            {
+            if (address == null) {
                 return null;
             }
             Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
-
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return p1;
-
     }
-    public Bitmap loadImageFromStorage(String name)
-    {
+
+    public Bitmap loadImageFromStorage(String name) {
         ContextWrapper cw = new ContextWrapper(getBaseContext());
         File directory = cw.getDir("images", Context.MODE_PRIVATE);
         Bitmap b;
@@ -188,8 +185,7 @@ MapsInitializer.initialize(this);
             File mypath = new File(directory, name);
             b = BitmapFactory.decodeStream(new FileInputStream(mypath));
             return b;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;

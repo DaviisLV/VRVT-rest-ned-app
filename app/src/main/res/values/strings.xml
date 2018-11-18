@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VRVT-rest-ned-app</string>
+    <string name="app_name">Restorānu\nNedēļa</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="LoudList">Skatīt visus restorānus</string>
     <string name="WelcomeContent">Restorānu\nNedēļa</string>
